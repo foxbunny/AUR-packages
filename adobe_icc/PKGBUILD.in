@@ -1,0 +1,36 @@
+# Maintainer: foxbunny <bg.branko@gmail.com>
+
+pkgname="adobe-icc"
+pkgver="CS4"
+pkgrel=3
+
+pkgdesc="ICC profiles from Adobe"
+arch=('i686' 'x86_64')
+url="http://www.adobe.com/"
+license=('Custom')
+makedepends=('unzip')
+groups=('painters-studio-extra' 'painters-studio-complete')
+source=("http://download.adobe.com/pub/adobe/iccprofiles/mac/AdobeICCProfilesCS4Mac_end-user.zip"
+        "LICENSE")
+install=("adobe-icc.install")
+
+build() {
+    mkdir -p "${pkgdir}"/usr/share/color/icc || return 1
+    mkdir -p "${pkgdir}"/usr/share/doc/adobe-icc || return 1
+    for file in "${srcdir}"/Adobe\ ICC\ Profiles\ \(end-user\)/CMYK/*.icc
+    do
+        install -m644 "${file}" ${pkgdir}/usr/share/color/icc || return 1
+    done
+    for file in ${srcdir}/Adobe\ ICC\ Profiles\ \(end-user\)/RGB/*.icc
+    do
+        install -m644 "$file" ${pkgdir}/usr/share/color/icc || return 1
+    done
+    for file in "${srcdir}"/Adobe\ ICC\ Profiles\ \(end-user\)/*.pdf
+    do
+        install -m644 "$file" "${pkgdir}"/usr/share/doc/adobe-icc || return 1
+    done
+    install -Dm644 "${srcdir}"/LICENSE \
+      "${pkgdir}"/usr/share/doc/adobe-icc/LICENSE
+}
+
+#md5sums:

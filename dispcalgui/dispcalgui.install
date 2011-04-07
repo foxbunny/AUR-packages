@@ -1,0 +1,8 @@
+ 
+post_install() {
+  ln -s /usr/share/dispcalgui/dispcalGUI /usr/bin/dispcalgui
+}
+
+pre_remove() {
+  rm /usr/bin/dispcalgui
+}
